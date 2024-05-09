@@ -1,0 +1,8 @@
+extends layout-signin
+
+block contentSignin
+    form(class="login-form")
+        div(class="mb-3")
+            label(for="inputDNI", class="form-label") Ingrese su DNI
+            input(type="number", class="form-control", aria-label="DNI",aria-describedby="basic-addon1", id="inputDNI")
+        button(type="submit", class="btn btn-outline-dark") Ingresar

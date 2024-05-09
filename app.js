@@ -65,6 +65,7 @@ app.use((req, res, next) => {
 
 app.get("/", viewController.getSignin);
 app.get("/signup", viewController.getSignup);
+app.get("/signin-client", viewController.getSigninClient);
 
 app.use(errorController.error404);
 
