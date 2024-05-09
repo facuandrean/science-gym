@@ -4,11 +4,39 @@ import logger from "morgan";
 import viewController from "./controllers/viewController.js";
 import errorController from "./controllers/errorController.js";
 
+import { setupDatabase } from "./queries.js";
+
+// conexión a base de datos
+
+import dotenv from "dotenv";
+import { createClient } from "@libsql/client";
+
+// leemos las variables de entorno
+
+dotenv.config();
+
 // Inicialización de variables.
 
 const app = express();
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const PORT = process.env.PORT ?? 3000;
+
+// creamos la base de datos
+
+const db = createClient({
+    url: "libsql://eminent-songbird-facuandrean.turso.io",
+    authToken: process.env.DB_TOKEN
+})
+
+// codigo sql
+
+setupDatabase(db)
+.then(() => {
+    console.log("Database setup completed successfully.");
+})
+.catch((error) => {
+    console.error("Error setting up database:", error);
+});
 
 // Middlewares
 
@@ -35,7 +63,8 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/", viewController.getHome);
+app.get("/", viewController.getSignin);
+app.get("/signup", viewController.getSignup);
 
 app.use(errorController.error404);
 
